@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>历史记录</title>
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport"/>
+
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.5.6/css/layui.css">
+    <script src="../js/f2.min.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="https://www.layuicdn.com/layui-v2.5.6/layui.js"></script>
+    <!--    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="${request.contextPath}/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://www.layuicdn.com/layui-v2.5.6/css/layui.css">
+
+</head>
+
+
+
+<body class="layui-layout-body">
+<section class="jq22-flexView jq22-head-bj-one">
+    <header class="jq22-navBar jq22-navBar-fixed jq22-navBar-chang">
+                <a href="${request.contextPath}/user/index" class="jq22-navBar-item">
+                    <i class="icon icon-return"></i>
+                </a>
+        <div class="jq22-center">
+            <span class="jq22-center-title">数据历史记录</span>
+
+        </div>
+        <!--        <a href="javascript:;" class="jq22-navBar-item">-->
+<!--        <a href="${request.contextPath}/user/info" class="jq22-navBar-item">-->
+<!--            &lt;!&ndash;            <button type="button" onclick="logout()">退出</button>&ndash;&gt;-->
+<!--            <i style="font-size: 30px" class="fa fa-user-circle-o"></i>-->
+<!--        </a>-->
+
+    </header>
+
+<!--<ul class="layui-nav">-->
+
+<!--    <li class="layui-nav-item " ><a href="${request.contextPath}/user/index" onclick="">返回</a></li>-->
+<!--</ul>-->
+
+<div style="padding: 20px; background-color: #F2F2F2;">
+    <div class="layui-row layui-col-space15">
+
+
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">
+
+                    <form id="form">
+                        <div class="layui-inline">
+<!--                            <label class="layui-form-label">历史记录</label>-->
+                            <div class="layui-input-inline">
+                                <input type="text" class="layui-input" id="test27" readonly="" placeholder="yyyy-MM-dd">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="layui-card-body">
+<!--                    <table class="layui-hide" id="test"></table>-->
+
+                    <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                        <ul class="layui-tab-title" lay-filter="demo">
+                            <li class="layui-this">PH</li>
+                            <li>SS</li>
+                            <li>COD</li>
+                            <li>NH3-N</li>
+                            <li>Cu</li>
+                            <li>Ni</li>
+                            <li>Fr</li>
+                        </ul>
+                        <div class="layui-tab-content" >
+<!--        ph                    ==================================-->
+                            <div class="layui-tab-item layui-show">
+                                <#assign max = 0>
+                                <#list phHistory as l>
+                                    <#if (l.avg > max) >
+                                         <#assign max = l.avg>
+                                    </#if>
+                                </#list>
+                                <#list phHistory as l >
+                                    <div style="width: 100%;">
+                                        <div style="width: 20%;float: right;line-height: 18px;text-align: center">
+                                            ${l.time?substring(8,10)}:00
+                                        </div>
+                                        <div style="width: 80%">
+                                            <div class="layui-progress layui-progress-big" style="border-radius: 0px">
+                                                <#if l.avg == max>
+                                                <div class="layui-progress-bar" lay-percent="100%" style="border-radius: 0px">${l.avg?string("#.####")}</div>
+                                                <#else>
+
+
+                                                <div class="layui-progress-bar" lay-percent="${(l.avg/max)*100}%" style="border-radius: 0px">${l.avg?string("#.####")}</div>
+                                                </#if>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <hr style="margin: 0px;background-color: white">
+                                </#list>
+
+                            </div>
+
+<!--        ss                    ==================================-->
+                            <div class="layui-tab-item">
+                                <#assign max = 0>
+                                <#list ssHistory as l>
+                                    <#if (l.avg > max) >
+                                         <#assign max = l.avg>
+                                    </#if>
+                                </#list>
+                                <#list ssHistory as l >
+                                    <div style="width: 100%;">
+                                        <div style="width: 20%;float: right;line-height: 18px;text-align: center">
+                                            ${l.time?substring(8,10)}:00
+                                        </div>
+                                        <div style="width: 80%">
+                                            <div class="layui-progress layui-progress-big" style="border-radius: 0px">
+                                                <#if l.avg == max>
+                                                <div class="layui-progress-bar" lay-percent="100%" style="border-radius: 0px">${l.avg?string("#.####")}</div>
+                                                <#else>
+                                                <div class="layui-progress-bar" lay-percent="${(l.avg/max)*100}%" style="border-radius: 0px">${l.avg?string("#.####")}</div>
+                                                </#if>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <hr style="margin: 0px;background-color: white">
+                                </#list>
+
+                            </div>
+<!--        cod                    ==================================-->
+                            <div class="layui-tab-item">
+                                <#assign max = 0>
+                                <#list codHistory as l>
+                                    <#if (l.avg > max) >
+                                         <#assign max = l.avg>
+                                    </#if>
+                                </#list>
+                                <#list codHistory as l >
+                                    <div style="width: 100%;">
+                                        <div style="width: 20%;float: right;line-height: 18px;text-align: center">
+                                            ${l.time?substring(8,10)}:00
+                                        </div>
+                                        <div style="width: 80%">
+                                            <div class="layui-progress layui-progress-big" style="border-radius: 0px">
+                                                <#if l.avg == max>
+                                                <div class="layui-progress-bar" lay-percent="100%" style="border-radius: 0px">${l.avg?string("#.####")}</div>
+                                                <#else>
+                                                <div class="layui-progress-bar" lay-percent="${(l.avg/max)*100}%" style="border-radius: 0px">${l.avg?string("#.####")}</div>
+                                                </#if>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <hr style="margin: 0px;background-color: white">
+                                </#list>
+
+                            </div>
+<!--        nh                    ==================================-->
+                            <div class="layui-tab-item">
+                                <#assign max = 0>
+                                <#list nhHistory as l>
+                                    <#if (l.avg > max) >
+                                         <#assign max = l.avg>
+                                    </#if>
+                                </#list>
+                                <#list nhHistory as l >
+                                    <div style="width: 100%;">
+                                        <div style="width: 20%;float: right;line-height: 18px;text-align: center">
+                                            ${l.time?substring(8,10)}:00
+                                        </div>
+                                        <div style="width: 80%">
+                                            <div class="layui-progress layui-progress-big" style="border-radius: 0px">
+                                                <#if l.avg == max>
+                                                <div class="layui-progress-bar" lay-percent="100%" style="border-radius: 0px">${l.avg?string("#.####")}</div>
+                                                <#else>
+                                                <div class="layui-progress-bar" lay-percent="${(l.avg/max)*100}%" style="border-radius: 0px">${l.avg?string("#.####")}</div>
+                                                </#if>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <hr style="margin: 0px;background-color: white">
+                                </#list>
+
+                            </div>
+<!--        cu                    ==================================-->
+                            <div class="layui-tab-item">
+                                <#assign max = 0>
+                                <#list cuHistory as l>
+                                    <#if (l.avg > max) >
+                                         <#assign max = l.avg>
+                                    </#if>
+                                </#list>
+                                <#list cuHistory as l >
+                                    <div style="width: 100%;">
+                                        <div style="width: 20%;float: right;line-height: 18px;text-align: center">
+                                            ${l.time?substring(8,10)}:00
+                                        </div>
+                                        <div style="width: 80%">
+                                            <div class="layui-progress layui-progress-big" style="border-radius: 0px">
+                                                <#if l.avg == max>
+                                                <div class="layui-progress-bar" lay-percent="100%" style="border-radius: 0px">${l.avg?string("#.####")}</div>
+                                                <#else>
+                                                <div class="layui-progress-bar" lay-percent="${(l.avg/max)*100}%" style="border-radius: 0px">${l.avg?string("#.####")}</div>
+                                                </#if>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <hr style="margin: 0px;background-color: white">
+                                </#list>
+
+                            </div>
+<!--        ni                    ==================================-->
+                            <div class="layui-tab-item">
+                                <#assign max = 0>
+                                <#list niHistory as l>
+                                    <#if (l.avg > max) >
+                                         <#assign max = l.avg>
+                                    </#if>
+                                </#list>
+                                <#list niHistory as l >
+                                    <div style="width: 100%;">
+                                        <div style="width: 20%;float: right;line-height: 18px;text-align: center">
+                                            ${l.time?substring(8,10)}:00
+                                        </div>
+                                        <div style="width: 80%">
+                                            <div class="layui-progress layui-progress-big" style="border-radius: 0px">
+                                                <#if l.avg == max>
+                                                <div class="layui-progress-bar" lay-percent="100%" style="border-radius: 0px">${l.avg?string("#.####")}</div>
+                                                <#else>
+                                                <div class="layui-progress-bar" lay-percent="${(l.avg/max)*100}%" style="border-radius: 0px">${l.avg?string("#.####")}</div>
+                                                </#if>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <hr style="margin: 0px;background-color: white">
+                                </#list>
+
+                            </div>
+<!--        fr                    ==================================-->
+                            <div class="layui-tab-item">
+                                <#assign max = 0>
+                                <#list frHistory as l>
+                                    <#if (l.avg > max) >
+                                         <#assign max = l.avg>
+                                    </#if>
+                                </#list>
+                                <#list frHistory as l >
+                                    <div style="width: 100%;">
+                                        <div style="width: 20%;float: right;line-height: 18px;text-align: center">
+                                            ${l.time?substring(8,10)}:00
+                                        </div>
+                                        <div style="width: 80%">
+                                            <div class="layui-progress layui-progress-big" style="border-radius: 0px">
+                                                <#if l.avg == max>
+                                                <div class="layui-progress-bar" lay-percent="100%" style="border-radius: 0px">${l.avg?string("#.####")}</div>
+                                                <#else>
+                                                <div class="layui-progress-bar" lay-percent="${(l.avg/max)*100}%" style="border-radius: 0px">${l.avg?string("#.####")}</div>
+                                                </#if>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <hr style="margin: 0px;background-color: white">
+                                </#list>
+
+                            </div>
+
+
+
+
+
+
+                        </div>
+                    </div>
+
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+
+
+<!--<script src="../src/layui.js"></script>-->
+
+<script>
+    layui.use(['element','laydate'], function(){
+        var laydate = layui.laydate;
+        var element = layui.element;
+
+
+        var time=new Date();
+        var today = time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDate();
+
+        //日期只读
+        laydate.render({
+            elem: '#test27'
+            //,trigger: 'click'
+            ,value: '${date}'
+            ,isInitValue: true
+            ,done: function (date) {
+
+                //var replace = date.replace(/-/g,"");
+                location.href = "history?date="+date;
+                //alert(replace)
+            }
+        });
+
+    });
+</script>
+
+
+</body>
+</html>

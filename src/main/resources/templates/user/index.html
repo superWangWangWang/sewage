@@ -1,0 +1,297 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>建泰实时监控系统</title>
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport"/>
+
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.5.6/css/layui.css">
+    <script src="../js/f2.min.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="https://www.layuicdn.com/layui-v2.5.6/layui.js"></script>
+<!--    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="${request.contextPath}/font-awesome-4.7.0/css/font-awesome.min.css">
+
+
+    <style>
+        #tab th{
+            font-size: 18px;
+            font-weight: bold;
+        }
+        #tab tr{
+            font-size: 15px;
+            text-align: left;
+
+        }
+        #tab td{
+            font-weight: bold;
+            font-size: 15px;
+            text-align: left;
+        }
+    </style>
+
+
+</head>
+<body onLoad="javascript:window.resizeTo(screen.availWidth,screen.availHeight);window.moveTo(0,0) ">
+
+<section class="jq22-flexView jq22-head-bj-one">
+    <header class="jq22-navBar jq22-navBar-fixed jq22-navBar-chang" >
+<!--        <a href="javascript:void(0);" class="jq22-navBar-item">-->
+<!--            <i class="icon icon-return"></i>-->
+<!--        </a>-->
+        <div class="jq22-center">
+            <span class="jq22-center-title">实时设备运行监控</span>
+
+        </div>
+<!--        <a href="javascript:;" class="jq22-navBar-item">-->
+        <a href="${request.contextPath}/user/history" class="jq22-navBar-item">
+<!--            <button type="button" onclick="logout()">退出</button>-->
+            <i style="font-size: 30px" class="fa fa-hourglass-o"></i>
+        </a>
+
+    </header>
+    <section class="jq22-scrollView">
+
+        <div class="divHeight"></div>
+        <div class="jq22-flex">
+            <div class="jq22-flex-box">
+                <h1>
+                    <span id="data_time" style="color: coral;">【${data.time}】</span>
+                    <span id="minute" style="float: right;color: #1fd5e6">1秒前已刷新</span>
+                </h1>
+
+            </div>
+        </div>
+
+
+        <div class="jq22-data-box">
+            <table id="tab" >
+                <thead>
+                <tr>
+                    <th>&nbsp;&nbsp;&nbsp;监控名称</th>
+                    <th>正常范围</th>
+                    <th>实时数据</th>
+                    <th>单位</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;PH</td>
+                        <#list rangeList as l>
+                            <#if l.name == 'ph'>
+                            <td>${l.min}-${l.max}</td>
+                            </#if>
+                        </#list>
+                        <#assign ph = data.ph?number>
+                            <#if (ph>6) && (ph<9)>
+                                <td id="ph" style="color: green"> ${ph}</td>
+                            <#else>
+                                 <td id="ph" style="color: red"> ${ph}</td>
+                            </#if>
+
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;悬浮物</td>
+                        <#list rangeList as l>
+                            <#if l.name == 'ss'>
+                                 <td>${l.min}-${l.max}</td>
+                            </#if>
+                         </#list>
+                        <td id="ss"> ${data.ss}</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;COD</td>
+                        <#list rangeList as l>
+                            <#if l.name == 'cod'>
+                                <td>${l.min}-${l.max}</td>
+                            </#if>
+                        </#list>
+                        <td id="cod">${data.cod}</td>
+                        <td>mg/L</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;氨氮</td>
+                        <#list rangeList as l>
+                                <#if l.name == 'nh'>
+                                <td>${l.min}-${l.max}</td>
+                            </#if>
+                        </#list>
+                        <td id="nh">${data.nh}</td>
+                        <td>mg/L</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;铜</td>
+                        <#list rangeList as l>
+                            <#if l.name == 'cu'>
+                                <td>${l.min}-${l.max}</td>
+                             </#if>
+                         </#list>
+                        <td id="cu">${data.cu}</td>
+                        <td>mg/L</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;镍</td>
+                        <#list rangeList as l>
+                            <#if l.name == 'ni'>
+                                <td>${l.min}-${l.max}</td>
+                            </#if>
+                        </#list>
+                        <td id="ni">${data.ni}</td>
+                        <td>mg/L</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;流量</td>
+                        <td>-</td>
+                        <td id="fr">${data.fr}</td>
+                        <td>m³/h</td>
+                    </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+
+
+<!--<table class="layui-hide" id="test"></table>-->
+
+
+<script type="text/html" id="del">
+    <!-- 这里的 checked 的状态只是演示 -->
+    <input type="checkbox" name="delete" value="{{d.email}}" lay-skin="switch" lay-text="是|否" lay-filter="sexDemo" {{ d.id == 10003 ? 'checked' : '' }}>
+</script>
+
+
+</section>
+
+</section>
+
+
+</body>
+<script>
+    layui.use('table', function(){
+        var table = layui.table
+            ,form = layui.form;
+
+        table.render({
+            elem: '#test'
+            ,url:'emailList'
+            //,cellMinWidth: 80
+            ,cols: [[
+                //{type:'numbers'}
+                //,{type: 'checkbox'}
+                //,{field:'id', title:'ID', width:100, unresize: true, sort: true}
+                {field:'email', title:'接受的邮箱', templet: '#usernameTpl'}
+                ,{field:'remarks', title:'备注'}
+                //,{field:'wealth', title: '财富', minWidth:120, sort: true}
+                ,{field:'delete', title:'接受邮件',  templet: '#del', unresize: true}
+                //,{field:'delete', title:'删除',  templet: '#del', unresize: true}
+                //,{field:'lock', title:'锁定', templet: '#checkboxTpl', unresize: true}
+            ]]
+            ,page: true
+        });
+
+        //监听性别操作
+        form.on('switch(sexDemo)', function(obj){
+            layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
+            $.ajax({
+                url:"aa?",
+                dataType:"json",
+                type:"get",
+                success:function (data) {
+                    console.log(data)
+                }
+            })
+        });
+
+        //监听锁定操作
+        form.on('checkbox(lockDemo)', function(obj){
+            layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
+        });
+    });
+</script>
+
+
+<script>
+    $(function () {
+
+        setInterval('add_minute()', 1000 * 1);
+        getData();
+        setInterval('getData()', 1000 * 5);
+    })
+
+    function getData() {
+        $.ajax({
+            url:"getLatestData",
+            dataType:"json",
+            type:"get",
+            success:function (data) {
+              var time = data.data.time;
+              var ph = parseFloat(data.data.ph);
+              var ss = parseFloat(data.data.ss);
+              var cod = parseFloat(data.data.cod);
+              var nh = parseFloat(data.data.nh);
+              var cu = parseFloat(data.data.cu);
+              var ni = parseFloat(data.data.ni);
+              var fr = parseFloat(data.data.fr);
+                if (ph > 6 && ph < 9){
+                    $("#ph").css("color","green")
+                }else {
+                    $("#ph").css("color","red")
+                }
+                if (ss > 0 && ss < 1000000){
+                    $("#ss").css("color","green")
+                }else {
+                    $("#ss").css("color","red")
+                }
+                if (cod > 0 && cod < 60){
+                    $("#cod").css("color","green")
+                }else {
+                    $("#cod").css("color","red")
+                }
+                if (nh > 0 && nh < 6){
+                    $("#nh").css("color","green")
+                }else {
+                    $("#nh").css("color","red")
+                }
+                if (cu > 0 && cu < 0.3){
+                    $("#cu").css("color","green")
+                }else {
+                    $("#cu").css("color","red")
+                }
+                if (ni > 0 && ni < 0.3){
+                    $("#ni").css("color","green")
+                }else {
+                    $("#ni").css("color","red")
+                }
+                $("#data_time").text("【" + time + "】")
+                $("#ph").text(ph)
+                $("#ss").text(ss)
+                $("#cod").text(cod)
+                $("#nh").text(nh)
+                $("#cu").text(cu)
+                $("#ni").text(ni)
+                document.getElementById("minute").innerText = "0秒前已刷新";
+
+            }
+        })
+    }
+function logout() {
+    //location.href = "${request.contextPath}/user/logout";
+    if(confirm("此方法退出将需要重新输入账号密码!确定继续退出？"))
+        location.href = "${request.contextPath}/user/logout";
+}
+
+    function add_minute()
+    {
+        var text = document.getElementById("minute").innerText;
+        var text = text.replace("秒前已刷新","");
+        document.getElementById("minute").innerText = (parseInt(text) + 1) + "秒前已刷新";
+    }
+</script>
+
+
+
+</html>

@@ -1,0 +1,70 @@
+spring:
+  freemarker:
+    enabled: true
+    suffix: .html
+    request-context-attribute: request
+    CACHE: false
+    #template-loader-path: classpath:/templates/
+    settings:
+      number_format: 0.##      #解决数值用逗号分开的问题
+  datasource:
+    driver-class-NAME: com.mysql.cj.jdbc.Driver
+    #url: jdbc:mysql://115.159.93.246:3306/jt?useUnicode=TRUE&characterEncoding=utf-8&useSSL=FALSE&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/jk?useUnicode=TRUE&characterEncoding=utf-8&useSSL=FALSE&serverTimezone=Asia/Shanghai
+    TYPE: com.zaxxer.hikari.HikariDataSource
+    #username: jt_data
+    username: root
+   #PASSWORD: jiantai10086
+    PASSWORD: root
+  SESSION:
+    store-TYPE: NONE
+  devtools:
+    restart:
+      #热部署生效
+      enabled: true
+      #classpath目录下的WEB-INF文件夹内容修改不重启
+      #exclude: WEB-INF/**
+      #设置重启目录
+  resources:
+    static-locations: classpath:/static/, classpath:/templates/ #很神奇，不加这句的话http://localhost:8080/jianTai/login可以访问，加了.html后缀就访问失败（理论上默认配置了的，不用显式配置）
+  servlet:
+    multipart:
+      MAX-request-size: 30MB
+      MAX-FILE-size: 30MB #配置上传文件大小
+
+
+#  http:
+#    encoding:
+#      charset: UTF-8
+#      enabled: true
+
+#      additional-paths: src/main/java
+
+SERVER:
+  PORT: 6767
+  servlet:
+    context-path: /sewage
+    SESSION:
+      timeout: 1440 #session过期时间--单位分钟 -- 1天
+
+#  tomcat:
+#    accesslog:
+#      enabled: true
+#      filted-request-entries: #uri匹配模式:0/null-完全匹配;1-前缀匹配;2-后缀匹配;3-正则表达式
+#        - uri: /jianTai/user/
+#          type: 2
+#      pattern:
+#         jiantai %u %t "%r" %s %b %D
+#    basedir: D:/logs/accesslog.log
+mybatis:
+  TYPE-aliases-package: com.jt.sewage.entity
+  configuration:
+    LOG-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    ##开启驼峰映射
+    map-underscore-TO-camel-CASE: true
+
+#logging:
+#  config: classpath:logback-spring.xml
+
+#  file:
+#    name: D:/logs/%d{yyyy-MM-dd}.log
